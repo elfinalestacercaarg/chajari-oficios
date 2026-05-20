@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Marketplace local de oficios y profesionales en Chajarí, Entre Ríos. Plomería, electricidad, fumigación, drone, mecánica rural y más.">
+    <meta name="theme-color" content="#166534">
+    <title>Chajarí Oficios • Marketplace local de oficios</title>
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Chajarí Oficios">
+    <meta property="og:description" content="Conectamos a quienes necesitan oficios con los mejores profesionales de Chajarí y zona.">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           VARIABLES CSS - Sistema de diseño centralizado
+           ============================================ */
+        :root {
+            /* Colores principales */
+            --color-primary: #166534;
+            --color-primary-hover: #15803d;
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+
+            /* Fondos */
+            --color-bg: #09090b;
+            --color-bg-card: #18181b;
+            --color-bg-card-hover: #27272a;
+            --color-bg-input: #27272a;
+
+            /* Bordes */
+            --color-border: #27272a;
+            --color-border-hover: #3f3f46;
+            --color-border-focus: #10b981;
+
+            /* Texto */
+            --color-text: #e4e4e7;
+            --color-text-muted: #a1a1aa;
+            --color-text-faint: #71717a;
+
+            /* Estados */
+            --color-success: #10b981;
+            --color-error: #ef4444;
+            --color-warning: #f59e0b;
+            --color-info: #3b82f6;
+
+            /* Espaciado */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+
+            /* Sombras */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 32px rgba(16, 185, 129, 0.15);
+
+            /* Transiciones */
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================================
+           BASE
+           ============================================ */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display {
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* ============================================
+           SCROLLBAR PERSONALIZADO
+           ============================================ */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg); }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-border-hover); }
+
+        /* ============================================
+           CARDS DE TRABAJOS
+           ============================================ */
+        .job-card {
+            transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-border-hover);
+        }
+
+        /* ============================================
+           ANIMACIONES
+           ============================================ */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        .animate-fadeIn { animation: fadeIn 0.3s var(--transition-base); }
+        .animate-slideUp { animation: slideUp 0.4s var(--transition-base); }
+        .animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+
+        /* ============================================
+           STARS RATING
+           ============================================ */
+        .stars {
+            display: inline-flex;
+            gap: 2px;
+            color: var(--color-warning);
+        }
+
+        /* ============================================
+           VALIDACIÓN DE FORMULARIOS
+           ============================================ */
+        .input-error {
+            border-color: var(--color-error) !important;
+        }
+
+        .input-success {
+            border-color: var(--color-success) !important;
+        }
+
+        .error-message {
+            color: var(--color-error);
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        /* ============================================
+           BADGE DE NUEVO/URGENTE
+           ============================================ */
+        .badge-new {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .badge-urgent {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        /* ============================================
+           LINE CLAMP (truncar texto)
+           ============================================ */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ============================================
+           BUTTON STATES
+           ============================================ */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 2px;
+        }
+
+        /* ============================================
+           AVATAR PLACEHOLDER
+           ============================================ */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        /* ============================================
+           SECCIÓN TITLE
+           ============================================ */
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.875rem, 4vw, 2.5rem);
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        /* ============================================
+           HERO BACKGROUND
+           ============================================ */
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(16, 185, 129, 0.08), transparent 60%);
+        }
+
+        /* ============================================
+           LOADING SPINNER
+           ============================================ */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 640px) {
+            .section-title { font-size: 1.875rem; }
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 sticky top-0 z-50" aria-label="Navegación principal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-x-3" aria-label="Inicio">
+                    <div class="w-9 h-9 bg-emerald-600 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-tools text-white" aria-hidden="true"></i>
+                    </div>
+                    <div class="font-display">
+                        <span class="font-bold text-xl sm:text-2xl tracking-tighter">Chajarí</span>
+                        <span class="font-semibold text-emerald-500">Oficios</span>
+                    </div>
+                </a>
+
+                <!-- Links desktop -->
+                <div class="hidden md:flex items-center gap-x-8 text-sm">
+                    <a href="#como-funciona" class="hover:text-white transition-colors">Cómo funciona</a>
+                    <a href="#trabajos" class="hover:text-white transition-colors">Trabajos</a>
+                    <a href="#oficios" class="hover:text-white transition-colors">Para profesionales</a>
+                </div>
+
+                <!-- Acciones -->
+                <div class="flex items-center gap-x-2 sm:gap-x-3">
+                    <!-- Botón de usuario logueado / login -->
+                    <div id="auth-section">
+                        <!-- Renderizado dinámicamente -->
+                    </div>
+
+                    <button onclick="App.UI.abrirModal('modal-publicar')"
+                            class="bg-emerald-600 hover:bg-emerald-700 px-4 sm:px-5 py-2.5 rounded-2xl text-sm font-semibold flex items-center gap-x-2 transition-colors"
+                            aria-label="Publicar nuevo trabajo">
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        <span class="hidden sm:inline">Publicar trabajo</span>
+                        <span class="sm:hidden">Publicar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO ==================== -->
+    <header class="hero-gradient">
+        <div class="max-w-5xl mx-auto px-6 pt-16 sm:pt-20 pb-12 sm:pb-16 text-center">
+            <div class="inline-flex items-center gap-x-2 bg-zinc-900 border border-zinc-800 px-4 py-1.5 rounded-3xl mb-6 text-sm animate-fadeIn">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse-soft" aria-hidden="true"></div>
+                <span id="hero-counter">Chajarí • Marketplace activo</span>
+            </div>
+
+            <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tighter leading-none mb-6 animate-slideUp">
+                El marketplace de<br>oficios de <span class="text-emerald-500">Chajarí</span>
+            </h1>
+            <p class="max-w-xl mx-auto text-lg sm:text-xl text-zinc-400 mb-10 animate-slideUp" style="animation-delay: 0.1s">
+                Conectamos a quienes necesitan oficios calificados con los mejores profesionales de la zona.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slideUp" style="animation-delay: 0.2s">
+                <button onclick="App.UI.abrirModal('modal-publicar')"
+                        class="bg-white text-zinc-900 hover:bg-zinc-100 transition-all px-8 py-4 rounded-3xl font-semibold flex items-center justify-center gap-x-3 text-lg">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    <span>Publicar un trabajo</span>
+                </button>
+                <button onclick="document.getElementById('trabajos').scrollIntoView({ behavior: 'smooth' })"
+                        class="border border-zinc-700 hover:bg-zinc-900 px-8 py-4 rounded-3xl font-semibold text-lg transition-all">
+                    Ver trabajos disponibles
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== CÓMO FUNCIONA ==================== -->
+    <section id="como-funciona" class="max-w-6xl mx-auto px-6 py-12 sm:py-16" aria-labelledby="como-funciona-title">
+        <div class="text-center mb-10">
+            <span class="uppercase tracking-[3px] text-emerald-500 text-sm font-semibold">Proceso simple</span>
+            <h2 id="como-funciona-title" class="section-title mt-2">Cómo funciona</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <article class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 hover:border-emerald-600/40 transition-colors">
+                <div class="text-emerald-500 text-4xl mb-6"><i class="fa-solid fa-edit" aria-hidden="true"></i></div>
+                <h3 class="font-semibold text-2xl mb-3 font-display">1. Publicás</h3>
+                <p class="text-zinc-400">Describís el trabajo, la zona y cuándo lo necesitás. En menos de 2 minutos.</p>
+            </article>
+            <article class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 hover:border-emerald-600/40 transition-colors">
+                <div class="text-emerald-500 text-4xl mb-6"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+                <h3 class="font-semibold text-2xl mb-3 font-display">2. Recibís propuestas</h3>
+                <p class="text-zinc-400">Profesionales de Chajarí y zona te contactan con precio y disponibilidad real.</p>
+            </article>
+            <article class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 hover:border-emerald-600/40 transition-colors">
+                <div class="text-emerald-500 text-4xl mb-6"><i class="fa-solid fa-handshake" aria-hidden="true"></i></div>
+                <h3 class="font-semibold text-2xl mb-3 font-display">3. Elegís y coordinás</h3>
+                <p class="text-zinc-400">Comparás perfiles, elegís al mejor y coordinás directamente por WhatsApp.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ==================== TRABAJOS DISPONIBLES ==================== -->
+    <section id="trabajos" class="max-w-7xl mx-auto px-6 py-12" aria-labelledby="trabajos-title">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-y-4">
+            <div>
+                <span class="text-emerald-500 text-sm font-semibold tracking-widest">CHAJARÍ Y ZONA</span>
+                <h2 id="trabajos-title" class="section-title">Trabajos disponibles</h2>
+            </div>
+
+            <!-- Filtros -->
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <div class="relative flex-1 sm:flex-initial">
+                    <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm" aria-hidden="true"></i>
+                    <input type="text"
+                           id="buscador"
+                           placeholder="Buscar trabajos..."
+                           aria-label="Buscar trabajos"
+                           class="bg-zinc-900 border border-zinc-700 rounded-2xl pl-11 pr-4 py-2.5 text-sm w-full sm:w-64 focus:outline-none focus:border-emerald-600 transition-colors">
+                </div>
+
+                <select id="filtro-categoria"
+                        aria-label="Filtrar por categoría"
+                        class="bg-zinc-900 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-600 transition-colors cursor-pointer">
+                    <option value="">Todas las categorías</option>
+                    <option value="Plomería">Plomería</option>
+                    <option value="Electricidad">Electricidad</option>
+                    <option value="Fumigación">Fumigación</option>
+                    <option value="Drone">Drone</option>
+                    <option value="Mecánica rural">Mecánica rural</option>
+                    <option value="Albañilería">Albañilería</option>
+                    <option value="Carpintería">Carpintería</option>
+                    <option value="Pintura">Pintura</option>
+                    <option value="Jardinería">Jardinería</option>
+                    <option value="Otro">Otro</option>
+                </select>
+
+                <select id="filtro-zona"
+                        aria-label="Filtrar por zona"
+                        class="bg-zinc-900 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-600 transition-colors cursor-pointer">
+                    <option value="">Todas las zonas</option>
+                    <option value="Chajarí">Chajarí</option>
+                    <option value="Concordia">Concordia</option>
+                    <option value="Federación">Federación</option>
+                    <option value="Villa del Rosario">Villa del Rosario</option>
+                    <option value="Mocoretá">Mocoretá</option>
+                </select>
+
+                <select id="ordenar-por"
+                        aria-label="Ordenar trabajos"
+                        class="bg-zinc-900 border border-zinc-700 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-600 transition-colors cursor-pointer">
+                    <option value="nuevos">Más nuevos</option>
+                    <option value="populares">Más populares</option>
+                    <option value="presupuesto">Mayor presupuesto</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Contador de resultados -->
+        <div id="contador-resultados" class="text-sm text-zinc-500 mb-6"></div>
+
+        <!-- Lista de trabajos -->
+        <div id="lista-trabajos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
+            <!-- Renderizado dinámicamente -->
+        </div>
+    </section>
+
+    <!-- ==================== PARA PROFESIONALES ==================== -->
+    <section id="oficios" class="max-w-5xl mx-auto px-6 py-16">
+        <div class="bg-gradient-to-br from-zinc-900 to-zinc-900/50 border border-zinc-800 rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-600/10 rounded-full blur-3xl"></div>
+            <div class="relative">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 font-display">¿Ofrecés un oficio?</h2>
+                <p class="text-zinc-400 max-w-md mx-auto mb-8">Registrate y empezá a recibir trabajos de Chajarí y zona sin pagar publicidad.</p>
+                <button onclick="App.UI.abrirModal('modal-registro-profesional')"
+                        class="bg-white text-zinc-900 px-8 py-3 rounded-2xl font-semibold hover:bg-zinc-100 transition-colors inline-flex items-center gap-x-2">
+                    <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+                    Registrarme como profesional
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="border-t border-zinc-800 py-10 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid sm:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-x-2 mb-3">
+                        <div class="w-7 h-7 bg-emerald-600 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-tools text-white text-xs" aria-hidden="true"></i>
+                        </div>
+                        <span class="font-bold font-display">Chajarí Oficios</span>
+                    </div>
+                    <p class="text-sm text-zinc-500">El marketplace local de oficios y profesionales en Chajarí, Entre Ríos.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-3 text-sm uppercase tracking-wider text-zinc-400">Enlaces</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#como-funciona" class="text-zinc-500 hover:text-emerald-400 transition-colors">Cómo funciona</a></li>
+                        <li><a href="#trabajos" class="text-zinc-500 hover:text-emerald-400 transition-colors">Ver trabajos</a></li>
+                        <li><a href="#oficios" class="text-zinc-500 hover:text-emerald-400 transition-colors">Para profesionales</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-3 text-sm uppercase tracking-wider text-zinc-400">Contacto</h4>
+                    <a href="https://wa.me/5493456461557" target="_blank" rel="noopener" class="text-sm text-zinc-500 hover:text-emerald-400 transition-colors inline-flex items-center gap-x-2">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        +54 9 3456 461557
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-zinc-800 text-center text-xs text-zinc-600">
+                © 2026 Chajarí Oficios • Hecho con 💚 en Chajarí, Entre Ríos
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL: PUBLICAR TRABAJO ==================== -->
+    <div id="modal-publicar"
+         class="hidden fixed inset-0 bg-black/80 z-[100] items-center justify-center p-4"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="modal-publicar-title">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 sm:p-8 animate-slideUp" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6">
+                <h3 id="modal-publicar-title" class="text-2xl font-bold font-display">Publicar nuevo trabajo</h3>
+                <button onclick="App.UI.cerrarModal('modal-publicar')" class="text-zinc-400 hover:text-white p-2" aria-label="Cerrar modal">
+                    <i class="fa-solid fa-xmark text-xl" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <form id="form-publicar" novalidate>
+                <div class="space-y-5">
+                    <!-- Nombre de contacto -->
+                    <div>
+                        <label for="pub-nombre" class="text-sm text-zinc-400 block mb-1.5 font-medium">Tu nombre</label>
+                        <input type="text" id="pub-nombre" name="nombre"
+                               placeholder="Ej: Juan Pérez"
+                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                               required minlength="3">
+                        <p class="error-message" data-error-for="pub-nombre"></p>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div>
+                        <label for="pub-whatsapp" class="text-sm text-zinc-400 block mb-1.5 font-medium">WhatsApp</label>
+                        <input type="tel" id="pub-whatsapp" name="whatsapp"
+                               placeholder="+54 9 3456 123456"
+                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                               required>
+                        <p class="error-message" data-error-for="pub-whatsapp"></p>
+                    </div>
+
+                    <!-- Título del trabajo -->
+                    <div>
+                        <label for="pub-titulo" class="text-sm text-zinc-400 block mb-1.5 font-medium">Título del trabajo</label>
+                        <input type="text" id="pub-titulo" name="titulo"
+                               placeholder="Ej: Pérdida de agua en baño"
+                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                               required minlength="5" maxlength="80">
+                        <p class="error-message" data-error-for="pub-titulo"></p>
+                    </div>
+
+                    <!-- Categoría y Zona -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="pub-categoria" class="text-sm text-zinc-400 block mb-1.5 font-medium">Categoría</label>
+                            <select id="pub-categoria" name="categoria"
+                                    class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                                    required>
+                                <option value="">Seleccionar</option>
+                                <option value="Plomería">Plomería</option>
+                                <option value="Electricidad">Electricidad</option>
+                                <option value="Fumigación">Fumigación</option>
+                                <option value="Drone">Drone</option>
+                                <option value="Mecánica rural">Mecánica rural</option>
+                                <option value="Albañilería">Albañilería</option>
+                                <option value="Carpintería">Carpintería</option>
+                                <option value="Pintura">Pintura</option>
+                                <option value="Jardinería">Jardinería</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                            <p class="error-message" data-error-for="pub-categoria"></p>
+                        </div>
+                        <div>
+                            <label for="pub-zona" class="text-sm text-zinc-400 block mb-1.5 font-medium">Zona</label>
+                            <select id="pub-zona" name="zona"
+                                    class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                                    required>
+                                <option value="">Seleccionar</option>
+                                <option value="Chajarí">Chajarí</option>
+                                <option value="Concordia">Concordia</option>
+                                <option value="Federación">Federación</option>
+                                <option value="Villa del Rosario">Villa del Rosario</option>
+                                <option value="Mocoretá">Mocoretá</option>
+                            </select>
+                            <p class="error-message" data-error-for="pub-zona"></p>
+                        </div>
+                    </div>
+
+                    <!-- Presupuesto (opcional) -->
+                    <div>
+                        <label for="pub-presupuesto" class="text-sm text-zinc-400 block mb-1.5 font-medium">
+                            Presupuesto aproximado <span class="text-zinc-600">(opcional)</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">$</span>
+                            <input type="number" id="pub-presupuesto" name="presupuesto"
+                                   placeholder="0"
+                                   min="0"
+                                   class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl pl-8 pr-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors">
+                        </div>
+                        <p class="error-message" data-error-for="pub-presupuesto"></p>
+                    </div>
+
+                    <!-- Urgente -->
+                    <div>
+                        <label class="flex items-center gap-x-3 cursor-pointer">
+                            <input type="checkbox" id="pub-urgente" name="urgente"
+                                   class="w-5 h-5 rounded bg-zinc-800 border-zinc-700 text-emerald-600 focus:ring-emerald-600 focus:ring-offset-zinc-900">
+                            <span class="text-sm">Es urgente <span class="text-zinc-500">(se destaca con badge rojo)</span></span>
+                        </label>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div>
+                        <label for="pub-descripcion" class="text-sm text-zinc-400 block mb-1.5 font-medium">
+                            Descripción <span class="text-zinc-600">(mín. 20 caracteres)</span>
+                        </label>
+                        <textarea id="pub-descripcion" name="descripcion" rows="4"
+                                  placeholder="Contá detalles del trabajo: qué se necesita, cuándo, materiales..."
+                                  class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors resize-none"
+                                  required minlength="20" maxlength="500"></textarea>
+                        <div class="flex justify-between mt-1">
+                            <p class="error-message" data-error-for="pub-descripcion"></p>
+                            <span id="contador-descripcion" class="text-xs text-zinc-500">0 / 500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 mt-8">
+                    <button type="button" onclick="App.UI.cerrarModal('modal-publicar')"
+                            class="flex-1 py-3 rounded-2xl border border-zinc-700 hover:bg-zinc-800 transition-colors font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="btn-publicar"
+                            class="flex-1 bg-emerald-600 hover:bg-emerald-700 py-3 rounded-2xl font-semibold transition-colors inline-flex items-center justify-center gap-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="btn-publicar-text">Publicar trabajo</span>
+                        <div id="btn-publicar-spinner" class="spinner hidden"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: REGISTRO PROFESIONAL ==================== -->
+    <div id="modal-registro-profesional"
+         class="hidden fixed inset-0 bg-black/80 z-[100] items-center justify-center p-4"
+         role="dialog" aria-modal="true">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 sm:p-8 animate-slideUp" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold font-display">Registrarme como profesional</h3>
+                <button onclick="App.UI.cerrarModal('modal-registro-profesional')" class="text-zinc-400 hover:text-white p-2" aria-label="Cerrar">
+                    <i class="fa-solid fa-xmark text-xl" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <form id="form-registro" novalidate>
+                <div class="space-y-5">
+                    <div>
+                        <label for="reg-nombre" class="text-sm text-zinc-400 block mb-1.5 font-medium">Nombre / Empresa</label>
+                        <input type="text" id="reg-nombre" name="nombre"
+                               placeholder="Ej: Juan o Plomería García"
+                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                               required minlength="3">
+                        <p class="error-message" data-error-for="reg-nombre"></p>
+                    </div>
+
+                    <div>
+                        <label for="reg-whatsapp" class="text-sm text-zinc-400 block mb-1.5 font-medium">WhatsApp</label>
+                        <input type="tel" id="reg-whatsapp" name="whatsapp"
+                               placeholder="+54 9 3456 123456"
+                               class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                               required>
+                        <p class="error-message" data-error-for="reg-whatsapp"></p>
+                    </div>
+
+                    <div>
+                        <label for="reg-oficio" class="text-sm text-zinc-400 block mb-1.5 font-medium">Tu oficio</label>
+                        <select id="reg-oficio" name="oficio"
+                                class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                                required>
+                            <option value="">Seleccionar</option>
+                            <option value="Plomería">Plomería</option>
+                            <option value="Electricidad">Electricidad</option>
+                            <option value="Fumigación">Fumigación</option>
+                            <option value="Drone">Drone</option>
+                            <option value="Mecánica rural">Mecánica rural</option>
+                            <option value="Albañilería">Albañilería</option>
+                            <option value="Carpintería">Carpintería</option>
+                            <option value="Pintura">Pintura</option>
+                            <option value="Jardinería">Jardinería</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <p class="error-message" data-error-for="reg-oficio"></p>
+                    </div>
+
+                    <div>
+                        <label for="reg-zona-cobertura" class="text-sm text-zinc-400 block mb-1.5 font-medium">Zona de cobertura</label>
+                        <select id="reg-zona-cobertura" name="zonaCobertura"
+                                class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors"
+                                required>
+                            <option value="">Seleccionar</option>
+                            <option value="Chajarí">Chajarí</option>
+                            <option value="Chajarí y zona">Chajarí y zona</option>
+                            <option value="Concordia">Concordia</option>
+                            <option value="Federación">Federación</option>
+                            <option value="Toda la región">Toda la región</option>
+                        </select>
+                        <p class="error-message" data-error-for="reg-zona-cobertura"></p>
+                    </div>
+
+                    <div>
+                        <label for="reg-experiencia" class="text-sm text-zinc-400 block mb-1.5 font-medium">Contanos tu experiencia</label>
+                        <textarea id="reg-experiencia" name="experiencia" rows="3"
+                                  placeholder="Años de experiencia, especialidades, qué trabajos hacés..."
+                                  class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus:outline-none focus:border-emerald-600 transition-colors resize-none"
+                                  required minlength="20" maxlength="300"></textarea>
+                        <p class="error-message" data-error-for="reg-experiencia"></p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 mt-8">
+                    <button type="button" onclick="App.UI.cerrarModal('modal-registro-profesional')"
+                            class="flex-1 py-3 rounded-2xl border border-zinc-700 hover:bg-zinc-800 transition-colors font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="flex-1 bg-emerald-600 hover:bg-emerald-700 py-3 rounded-2xl font-semibold transition-colors">
+                        Registrarme
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: MIS POSTULACIONES ==================== -->
+    <div id="modal-mis-postulaciones"
+         class="hidden fixed inset-0 bg-black/80 z-[100] items-center justify-center p-4"
+         role="dialog" aria-modal="true">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 animate-slideUp" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold font-display">Mis postulaciones</h3>
+                <button onclick="App.UI.cerrarModal('modal-mis-postulaciones')" class="text-zinc-400 hover:text-white p-2" aria-label="Cerrar">
+                    <i class="fa-solid fa-xmark text-xl" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div id="lista-mis-postulaciones" class="space-y-3">
+                <!-- Renderizado dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: DETALLE DE TRABAJO ==================== -->
+    <div id="modal-detalle-trabajo"
+         class="hidden fixed inset-0 bg-black/80 z-[100] items-center justify-center p-4"
+         role="dialog" aria-modal="true">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 animate-slideUp" onclick="event.stopPropagation()">
+            <div id="contenido-detalle-trabajo">
+                <!-- Renderizado dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST CONTAINER ==================== -->
+    <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none" aria-live="polite"></div>
+
+    <!-- ==================== JAVASCRIPT MODULAR ==================== -->
+    <script>
+    /**
+     * ============================================================================
+     * CHAJARÍ OFICIOS - APLICACIÓN PRINCIPAL
+     * ============================================================================
+     * Arquitectura modular usando IIFE (Immediately Invoked Function Expression)
+     * para evitar contaminar el scope global.
+     *
+     * Módulos:
+     * - State: Manejo de estado y persistencia
+     * - Utils: Funciones auxiliares reutilizables
+     * - Validator: Validaciones de formularios
+     * - UI: Control de interfaz (modales, toasts, renderizado)
+     * - WorkManager: Lógica de trabajos
+     * - UserManager: Lógica de usuarios y postulaciones
+     * - App: Inicialización
+     * ============================================================================
+     */
+    const App = (function() {
+        'use strict';
+
+        // ========================================================================
+        // CONSTANTES
+        // ========================================================================
+        const STORAGE_KEY = 'chajariOficios';
+        const STORAGE_VERSION = 2; // Versionado para migraciones futuras
+        const DEBOUNCE_DELAY = 300;
+        const TOAST_DURATION = 2800;
+        const WHATSAPP_BASE = 'https://wa.me/';
+
+        // ========================================================================
+        // MÓDULO: UTILS - Funciones reutilizables
+        // ========================================================================
+        const Utils = {
+            /**
+             * Genera un ID único basado en timestamp + random
+             * @returns {string} ID único
+             */
+            generarId() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+            },
+
+            /**
+             * Debouncing para evitar ejecuciones excesivas
+             * @param {Function} fn - Función a ejecutar
+             * @param {number} delay - Milisegundos de espera
+             * @returns {Function} Función con debounce aplicado
+             */
+            debounce(fn, delay = DEBOUNCE_DELAY) {
+                let timeoutId;
+                return function(...args) {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => fn.apply(this, args), delay);
+                };
+            },
+
+            /**
+             * Escapa HTML para prevenir inyección XSS
+             * @param {string} str - String a escapar
+             * @returns {string} String seguro
+             */
+            escaparHTML(str) {
+                if (typeof str !== 'string') return '';
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            },
+
+            /**
+             * Formatea tiempo relativo (Hace 3 horas, Hace 2 días, etc.)
+             * @param {number} timestamp - Timestamp en ms
+             * @returns {string} Tiempo formateado
+             */
+            tiempoRelativo(timestamp) {
+                const ahora = Date.now();
+                const diff = Math.floor((ahora - timestamp) / 1000);
+
+                if (diff < 60) return 'Ahora mismo';
+                if (diff < 3600) return `Hace ${Math.floor(diff / 60)} min`;
+                if (diff < 86400) return `Hace ${Math.floor(diff / 3600)} h`;
+                if (diff < 604800) return `Hace ${Math.floor(diff / 86400)} d`;
+                return new Date(timestamp).toLocaleDateString('es-AR');
+            },
+
+            /**
+             * Formatea número como precio en pesos argentinos
+             * @param {number} valor - Valor numérico
+             * @returns {string} Precio formateado
+             */
+            formatearPrecio(valor) {
+                if (!valor || isNaN(valor)) return '';
+                return new Intl.NumberFormat('es-AR', {
+                    style: 'currency',
+                    currency: 'ARS',
+                    maximumFractionDigits: 0
+                }).format(valor);
+            },
+
+            /**
+             * Limpia un número de WhatsApp (saca espacios, guiones, etc.)
+             * @param {string} numero - Número original
+             * @returns {string} Número solo con dígitos
+             */
+            limpiarTelefono(numero) {
+                return String(numero || '').replace(/\D/g, '');
+            },
+
+            /**
+             * Obtiene iniciales de un nombre (Ej: "Juan Pérez" -> "JP")
+             * @param {string} nombre - Nombre completo
+             * @returns {string} Iniciales
+             */
+            obtenerIniciales(nombre) {
+                if (!nombre) return '?';
+                return nombre
+                    .trim()
+                    .split(' ')
+                    .slice(0, 2)
+                    .map(p => p.charAt(0).toUpperCase())
+                    .join('');
+            },
+
+            /**
+             * Genera un color consistente basado en un string (para avatares)
+             * @param {string} str - String para hashear
+             * @returns {string} Color HSL
+             */
+            colorDesdeString(str) {
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) {
+                    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                const hue = Math.abs(hash) % 360;
+                return `hsl(${hue}, 60%, 45%)`;
+            }
+        };
+
+        // ========================================================================
+        // MÓDULO: STATE - Gestión del estado con validación y persistencia
+        // ========================================================================
+        const State = {
+            data: {
+                version: STORAGE_VERSION,
+                trabajos: [],
+                postulaciones: [],
+                usuario: null,
+                profesionales: []
+            },
+
+            /**
+             * Carga el estado desde localStorage con validación
+             * Si está corrupto o tiene versión vieja, regenera con datos iniciales
+             */
+            cargar() {
+                try {
+                    const guardado = localStorage.getItem(STORAGE_KEY);
+                    if (!guardado) {
+                        this.inicializarConDatosEjemplo();
+                        return;
+                    }
+
+                    const parsed = JSON.parse(guardado);
+
+                    // Validar estructura mínima
+                    if (!parsed.version || !Array.isArray(parsed.trabajos)) {
+                        console.warn('[State] Estructura inválida, regenerando...');
+                        this.inicializarConDatosEjemplo();
+                        return;
+                    }
+
+                    // Migración de versiones (si hay cambios futuros)
+                    if (parsed.version < STORAGE_VERSION) {
+                        console.info('[State] Migrando datos a versión', STORAGE_VERSION);
+                        parsed.version = STORAGE_VERSION;
+                    }
+
+                    this.data = {
+                        version: parsed.version,
+                        trabajos: parsed.trabajos || [],
+                        postulaciones: parsed.postulaciones || [],
+                        usuario: parsed.usuario || null,
+                        profesionales: parsed.profesionales || []
+                    };
+                } catch (error) {
+                    console.error('[State] Error al cargar:', error);
+                    this.inicializarConDatosEjemplo();
+                }
+            },
+
+            /**
+             * Guarda el estado en localStorage
+             * @returns {boolean} true si se guardó correctamente
+             */
+            guardar() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+                    return true;
+                } catch (error) {
+                    console.error('[State] Error al guardar:', error);
+                    UI.mostrarToast('No se pudo guardar. Tu navegador puede estar lleno.', 'error');
+                    return false;
+                }
+            },
+
+            /**
+             * Inicializa con datos de ejemplo para demo
+             */
+            inicializarConDatosEjemplo() {
+                this.data = {
+                    version: STORAGE_VERSION,
+                    trabajos: [
+                        {
+                            id: Utils.generarId(),
+                            titulo: 'Pérdida de agua en baño principal',
+                            categoria: 'Plomería',
+                            zona: 'Chajarí',
+                            descripcion: 'Hay una pérdida importante debajo del lavatorio del baño principal. Ya cerré la llave de paso pero necesito solución rápida porque tenemos visitas el fin de semana.',
+                            presupuesto: 25000,
+                            urgente: true,
+                            nombreContacto: 'Carlos Mendez',
+                            whatsapp: '5493456111222',
+                            timestamp: Date.now() - 1000 * 60 * 60 * 3,
+                            postulaciones: 4
+                        },
+                        {
+                            id: Utils.generarId(),
+                            titulo: 'Corto en instalación eléctrica del galpón',
+                            categoria: 'Electricidad',
+                            zona: 'Concordia',
+                            descripcion: 'Se cortó la luz en todo el galpón de la empresa. Tenemos que poder trabajar mañana sí o sí. Necesito alguien que pueda venir hoy.',
+                            presupuesto: 40000,
+                            urgente: true,
+                            nombreContacto: 'María González',
+                            whatsapp: '5493456333444',
+                            timestamp: Date.now() - 1000 * 60 * 60 * 8,
+                            postulaciones: 7
+                        },
+                        {
+                            id: Utils.generarId(),
+                            titulo: 'Fumigación de campo de soja - 50 hectáreas',
+                            categoria: 'Fumigación',
+                            zona: 'Federación',
+                            descripcion: 'Necesito fumigación con productos para soja en 50 hectáreas. Tengo los productos comprados, busco aplicador con equipo propio.',
+                            presupuesto: 150000,
+                            urgente: false,
+                            nombreContacto: 'Roberto Sánchez',
+                            whatsapp: '5493456555666',
+                            timestamp: Date.now() - 1000 * 60 * 60 * 24,
+                            postulaciones: 3
+                        },
+                        {
+                            id: Utils.generarId(),
+                            titulo: 'Relevamiento con drone en campo',
+                            categoria: 'Drone',
+                            zona: 'Chajarí',
+                            descripcion: 'Necesito relevamiento aéreo de campo de 80 hectáreas para análisis. Idealmente con cámara multiespectral.',
+                            presupuesto: 80000,
+                            urgente: false,
+                            nombreContacto: 'Ing. Agr. Pablo Ruiz',
+                            whatsapp: '5493456777888',
+                            timestamp: Date.now() - 1000 * 60 * 60 * 48,
+                            postulaciones: 2
+                        },
+                        {
+                            id: Utils.generarId(),
+                            titulo: 'Reparación de tractor John Deere',
+                            categoria: 'Mecánica rural',
+                            zona: 'Villa del Rosario',
+                            descripcion: 'Tractor John Deere 6110 con problemas en el embrague. Busco mecánico con experiencia en JD que pueda venir al campo.',
+                            presupuesto: 60000,
+                            urgente: false,
+                            nombreContacto: 'Diego Fernández',
+                            whatsapp: '5493456999000',
+                            timestamp: Date.now() - 1000 * 60 * 60 * 72,
+                            postulaciones: 5
+                        },
+                        {
+                            id: Utils.generarId(),
+                            titulo: 'Construcción de muro perimetral',
+                            categoria: 'Albañilería',
+                            zona: 'Chajarí',
+                            descripcion: 'Necesito presupuesto para construir muro perimetral de 40 metros lineales y 2 metros de altura. Tengo los materiales.',
+                            presupuesto: 350000,
+                            urgente: false,
+                            nombreContacto: 'Laura Pérez',
+                            whatsapp: '5493456121212',
+                            timestamp: Date.now() - 1000 * 60 * 60 * 96,
+                            postulaciones: 6
+                        }
+                    ],
+                    postulaciones: [],
+                    usuario: null,
+                    profesionales: []
+                };
+                this.guardar();
+            },
+
+            /**
+             * Limpia todos los datos (para testing/reset)
+             */
+            limpiar() {
+                localStorage.removeItem(STORAGE_KEY);
+                this.inicializarConDatosEjemplo();
+            }
+        };
+
+        // ========================================================================
+        // MÓDULO: VALIDATOR - Validaciones reutilizables
+        // ========================================================================
+        const Validator = {
+            /**
+             * Valida formato de email
+             */
+            email(valor) {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return regex.test(valor);
+            },
+
+            /**
+             * Valida número de teléfono argentino
+             * Acepta: +54 9 3456 123456, 3456123456, etc.
+             */
+            telefono(valor) {
+                const limpio = Utils.limpiarTelefono(valor);
+                return limpio.length >= 10 && limpio.length <= 13;
+            },
+
+            /**
+             * Valida longitud mínima
+             */
+            longitudMinima(valor, minimo) {
+                return String(valor || '').trim().length >= minimo;
+            },
+
+            /**
+             * Valida número positivo
+             */
+            numeroPositivo(valor) {
+                const num = Number(valor);
+                return !isNaN(num) && num >= 0;
+            },
+
+            /**
+             * Valida que no esté vacío
+             */
+            requerido(valor) {
+                return String(valor || '').trim().length > 0;
+            },
+
+            /**
+             * Muestra error en un campo
+             */
+            mostrarError(inputId, mensaje) {
+                const input = document.getElementById(inputId);
+                const errorEl = document.querySelector(`[data-error-for="${inputId}"]`);
+
+                if (input) {
+                    input.classList.add('input-error');
+                    input.classList.remove('input-success');
+                    input.classList.add('animate-shake');
+                    setTimeout(() => input.classList.remove('animate-shake'), 400);
+                }
+
+                if (errorEl) {
+                    errorEl.textContent = mensaje;
+                    errorEl.classList.add('visible');
+                }
+            },
+
+            /**
+             * Limpia error de un campo
+             */
+            limpiarError(inputId) {
+                const input = document.getElementById(inputId);
+                const errorEl = document.querySelector(`[data-error-for="${inputId}"]`);
+
+                if (input) {
+                    input.classList.remove('input-error');
+                }
+
+                if (errorEl) {
+                    errorEl.textContent = '';
+                    errorEl.classList.remove('visible');
+                }
+            },
+
+            /**
+             * Limpia todos los errores de un formulario
+             */
+            limpiarTodosErrores(formId) {
+                const form = document.getElementById(formId);
+                if (!form) return;
+
+                form.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+                form.querySelectorAll('.error-message').forEach(el => {
+                    el.textContent = '';
+                    el.classList.remove('visible');
+                });
+            }
+        };
+
+        // ========================================================================
+        // MÓDULO: UI - Control de interfaz
+        // ========================================================================
+        const UI = {
+            /**
+             * Abre un modal por ID
+             */
+            abrirModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (!modal) return;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            },
+
+            /**
+             * Cierra un modal por ID
+             */
+            cerrarModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (!modal) return;
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+
+                // Limpiar formulario si existe
+                const form = modal.querySelector('form');
+                if (form) {
+                    form.reset();
+                    Validator.limpiarTodosErrores(form.id);
+                }
+            },
+
+            /**
+             * Muestra un toast (notificación temporal)
+             * @param {string} mensaje
+             * @param {string} tipo - success | error | info | warning
+             */
+            mostrarToast(mensaje, tipo = 'success') {
+                const colores = {
+                    success: 'bg-emerald-600',
+                    error: 'bg-red-600',
+                    info: 'bg-zinc-700',
+                    warning: 'bg-amber-600'
+                };
+
+                const iconos = {
+                    success: 'fa-circle-check',
+                    error: 'fa-circle-xmark',
+                    info: 'fa-circle-info',
+                    warning: 'fa-triangle-exclamation'
+                };
+
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `${colores[tipo]} text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-x-3 animate-slideUp pointer-events-auto max-w-md`;
+                toast.setAttribute('role', tipo === 'error' ? 'alert' : 'status');
+                toast.innerHTML = `
+                    <i class="fa-solid ${iconos[tipo]}" aria-hidden="true"></i>
+                    <span class="text-sm font-medium">${Utils.escaparHTML(mensaje)}</span>
+                `;
+                container.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.transition = 'all 0.3s';
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(10px)';
+                    setTimeout(() => toast.remove(), 300);
+                }, TOAST_DURATION);
+            },
+
+            /**
+             * Renderiza la lista de trabajos
+             * @param {Array} trabajosFiltrados - Si se pasa, renderiza solo estos
+             */
+            renderizarTrabajos(trabajosFiltrados = null) {
+                const container = document.getElementById('lista-trabajos');
+                const contador = document.getElementById('contador-resultados');
+                const lista = trabajosFiltrados !== null ? trabajosFiltrados : State.data.trabajos;
+
+                // Actualizar contador
+                if (contador) {
+                    contador.textContent = `Mostrando ${lista.length} trabajo${lista.length !== 1 ? 's' : ''}`;
+                }
+
+                // Vacío
+                if (lista.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-16 text-zinc-500">
+                            <i class="fa-solid fa-magnifying-glass text-4xl mb-4 opacity-50"></i>
+                            <p class="text-lg">No hay trabajos que coincidan con tu búsqueda.</p>
+                            <p class="text-sm mt-2">Probá cambiando los filtros o publicá uno nuevo.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Renderizar usando documentFragment (performance)
+                const fragment = document.createDocumentFragment();
+
+                lista.forEach(trabajo => {
+                    const yaPostulado = State.data.postulaciones.some(p => p.id === trabajo.id);
+                    const card = this.crearCardTrabajo(trabajo, yaPostulado);
+                    fragment.appendChild(card);
+                });
+
+                container.innerHTML = '';
+                container.appendChild(fragment);
+            },
+
+            /**
+             * Crea el elemento DOM de una card de trabajo
+             */
+            crearCardTrabajo(trabajo, yaPostulado) {
+                const card = document.createElement('article');
+                card.className = 'job-card bg-zinc-900 border border-zinc-800 rounded-3xl p-6 flex flex-col animate-fadeIn';
+                card.setAttribute('role', 'listitem');
+
+                const iniciales = Utils.obtenerIniciales(trabajo.nombreContacto || 'Anónimo');
+                const colorAvatar = Utils.colorDesdeString(trabajo.nombreContacto || 'x');
+                const tiempo = Utils.tiempoRelativo(trabajo.timestamp);
+                const presupuesto = trabajo.presupuesto ? Utils.formatearPrecio(trabajo.presupuesto) : '';
+
+                card.innerHTML = `
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 text-xs font-medium bg-emerald-600/10 text-emerald-400 rounded-full">
+                                    ${Utils.escaparHTML(trabajo.categoria)}
+                                </span>
+                                ${trabajo.urgente ? `
+                                    <span class="px-3 py-1 text-xs font-bold badge-urgent rounded-full animate-pulse-soft">
+                                        <i class="fa-solid fa-fire"></i> URGENTE
+                                    </span>
+                                ` : ''}
+                            </div>
+                            ${presupuesto ? `
+                                <span class="text-emerald-400 font-bold text-sm whitespace-nowrap ml-2">${presupuesto}</span>
+                            ` : ''}
+                        </div>
+
+                        <h3 class="font-semibold text-xl leading-tight font-display mb-2 line-clamp-2">${Utils.escaparHTML(trabajo.titulo)}</h3>
+                        <p class="text-zinc-400 text-sm line-clamp-3 mb-4">${Utils.escaparHTML(trabajo.descripcion)}</p>
+
+                        <div class="flex items-center gap-x-3 mb-4">
+                            <div class="avatar" style="background: ${colorAvatar}">
+                                ${iniciales}
+                            </div>
+                            <div class="text-sm">
+                                <div class="text-zinc-300 font-medium">${Utils.escaparHTML(trabajo.nombreContacto || 'Anónimo')}</div>
+                                <div class="text-zinc-500 text-xs">
+                                    <i class="fa-solid fa-map-marker-alt"></i> ${Utils.escaparHTML(trabajo.zona)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-zinc-800">
+                        <div class="flex justify-between items-center mb-3 text-xs">
+                            <span class="text-zinc-500">${tiempo}</span>
+                            <span class="text-emerald-400 font-medium">
+                                ${trabajo.postulaciones} postulacion${trabajo.postulaciones !== 1 ? 'es' : ''}
+                            </span>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button data-action="ver-detalle" data-id="${trabajo.id}"
+                                    class="flex-1 py-2.5 text-sm font-semibold rounded-2xl border border-zinc-700 hover:bg-zinc-800 transition-colors">
+                                Ver detalle
+                            </button>
+                            ${yaPostulado ? `
+                                <button disabled class="flex-1 py-2.5 text-sm font-semibold rounded-2xl bg-zinc-800 text-zinc-500 cursor-not-allowed">
+                                    <i class="fa-solid fa-check"></i> Postulado
+                                </button>
+                            ` : `
+                                <button data-action="postularse" data-id="${trabajo.id}"
+                                        class="flex-1 py-2.5 text-sm font-semibold rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition-colors">
+                                    Postularme
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+
+                return card;
+            },
+
+            /**
+             * Renderiza el detalle de un trabajo en el modal
+             */
+            renderizarDetalleTrabajo(trabajoId) {
+                const trabajo = State.data.trabajos.find(t => t.id === trabajoId);
+                if (!trabajo) {
+                    this.mostrarToast('Trabajo no encontrado', 'error');
+                    return;
+                }
+
+                const yaPostulado = State.data.postulaciones.some(p => p.id === trabajo.id);
+                const iniciales = Utils.obtenerIniciales(trabajo.nombreContacto || 'Anónimo');
+                const colorAvatar = Utils.colorDesdeString(trabajo.nombreContacto || 'x');
+                const tiempo = Utils.tiempoRelativo(trabajo.timestamp);
+                const presupuesto = trabajo.presupuesto ? Utils.formatearPrecio(trabajo.presupuesto) : 'A convenir';
+                const whatsappUrl = `${WHATSAPP_BASE}${Utils.limpiarTelefono(trabajo.whatsapp)}?text=${encodeURIComponent(`Hola! Vi tu publicación "${trabajo.titulo}" en Chajarí Oficios. Quiero postularme.`)}`;
+
+                const container = document.getElementById('contenido-detalle-trabajo');
+                container.innerHTML = `
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs font-medium bg-emerald-600/10 text-emerald-400 rounded-full">
+                                ${Utils.escaparHTML(trabajo.categoria)}
+                            </span>
+                            ${trabajo.urgente ? `
+                                <span class="px-3 py-1 text-xs font-bold badge-urgent rounded-full">
+                                    <i class="fa-solid fa-fire"></i> URGENTE
+                                </span>
+                            ` : ''}
+                        </div>
+                        <button onclick="App.UI.cerrarModal('modal-detalle-trabajo')" class="text-zinc-400 hover:text-white p-2" aria-label="Cerrar">
+                            <i class="fa-solid fa-xmark text-xl"></i>
+                        </button>
+                    </div>
+
+                    <h3 class="text-2xl font-bold font-display mb-4 leading-tight">${Utils.escaparHTML(trabajo.titulo)}</h3>
+
+                    <div class="flex items-center gap-x-3 mb-6 pb-6 border-b border-zinc-800">
+                        <div class="avatar" style="background: ${colorAvatar}; width: 48px; height: 48px;">
+                            ${iniciales}
+                        </div>
+                        <div>
+                            <div class="font-medium">${Utils.escaparHTML(trabajo.nombreContacto || 'Anónimo')}</div>
+                            <div class="text-sm text-zinc-500">${tiempo}</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-zinc-500 mb-1">Descripción</div>
+                            <p class="text-zinc-300 whitespace-pre-line">${Utils.escaparHTML(trabajo.descripcion)}</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-xs uppercase tracking-wider text-zinc-500 mb-1">Zona</div>
+                                <div class="text-zinc-300">
+                                    <i class="fa-solid fa-map-marker-alt text-emerald-500"></i> ${Utils.escaparHTML(trabajo.zona)}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-xs uppercase tracking-wider text-zinc-500 mb-1">Presupuesto</div>
+                                <div class="text-emerald-400 font-bold">${presupuesto}</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-zinc-500 mb-1">Postulaciones recibidas</div>
+                            <div class="text-zinc-300">${trabajo.postulaciones} profesional${trabajo.postulaciones !== 1 ? 'es se postularon' : ' se postuló'}</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <a href="${whatsappUrl}" target="_blank" rel="noopener"
+                           class="w-full py-3 bg-green-600 hover:bg-green-700 rounded-2xl font-semibold transition-colors inline-flex items-center justify-center gap-x-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            Contactar por WhatsApp
+                        </a>
+
+                        ${yaPostulado ? `
+                            <button disabled class="w-full py-3 bg-zinc-800 text-zinc-500 rounded-2xl font-semibold cursor-not-allowed">
+                                <i class="fa-solid fa-check"></i> Ya te postulaste
+                            </button>
+                        ` : `
+                            <button data-action="postularse" data-id="${trabajo.id}"
+                                    class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-semibold transition-colors">
+                                Postularme a este trabajo
+                            </button>
+                        `}
+                    </div>
+                `;
+
+                this.abrirModal('modal-detalle-trabajo');
+            },
+
+            /**
+             * Renderiza la lista de "Mis postulaciones"
+             */
+            renderizarMisPostulaciones() {
+                const container = document.getElementById('lista-mis-postulaciones');
+
+                if (State.data.postulaciones.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-10 text-zinc-500">
+                            <i class="fa-solid fa-clipboard-list text-4xl mb-4 opacity-50"></i>
+                            <p>Todavía no te postulaste a ningún trabajo.</p>
+                            <p class="text-sm mt-2">Buscá trabajos disponibles y postulate.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = State.data.postulaciones.map(post => {
+                    const trabajo = State.data.trabajos.find(t => t.id === post.id);
+                    if (!trabajo) return '';
+
+                    return `
+                        <div class="border border-zinc-700 rounded-2xl p-4 hover:border-emerald-600/40 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <div class="font-semibold">${Utils.escaparHTML(trabajo.titulo)}</div>
+                                    <div class="text-sm text-zinc-400 mt-1">
+                                        ${Utils.escaparHTML(trabajo.categoria)} • ${Utils.escaparHTML(trabajo.zona)}
+                                    </div>
+                                </div>
+                                <span class="px-2 py-1 text-xs bg-amber-600/20 text-amber-400 rounded-full whitespace-nowrap">
+                                    ${post.estado || 'Pendiente'}
+                                </span>
+                            </div>
+                            <div class="flex gap-2 mt-3">
+                                <a href="${WHATSAPP_BASE}${Utils.limpiarTelefono(trabajo.whatsapp)}" target="_blank" rel="noopener"
+                                   class="flex-1 text-center py-2 text-sm bg-green-600 hover:bg-green-700 rounded-xl transition-colors">
+                                    <i class="fa-brands fa-whatsapp"></i> Contactar
+                                </a>
+                                <button data-action="cancelar-postulacion" data-id="${trabajo.id}"
+                                        class="px-4 py-2 text-sm border border-red-600/40 text-red-400 hover:bg-red-600/10 rounded-xl transition-colors">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            },
+
+            /**
+             * Actualiza el contador del hero con cantidad real de trabajos
+             */
+            actualizarContadorHero() {
+                const counter = document.getElementById('hero-counter');
+                if (counter) {
+                    const total = State.data.trabajos.length;
+                    counter.textContent = `Chajarí • ${total} trabajo${total !== 1 ? 's' : ''} activo${total !== 1 ? 's' : ''} esta semana`;
+                }
+            }
+        };
+
+        // ========================================================================
+        // MÓDULO: WORK MANAGER - Lógica de trabajos
+        // ========================================================================
+        const WorkManager = {
+            /**
+             * Valida el formulario de publicación de trabajo
+             */
+            validarFormularioPublicar() {
+                let valido = true;
+                const campos = [
+                    { id: 'pub-nombre', validar: v => Validator.longitudMinima(v, 3), mensaje: 'El nombre debe tener al menos 3 caracteres' },
+                    { id: 'pub-whatsapp', validar: v => Validator.telefono(v), mensaje: 'Ingresá un WhatsApp válido (10-13 dígitos)' },
+                    { id: 'pub-titulo', validar: v => Validator.longitudMinima(v, 5), mensaje: 'El título debe tener al menos 5 caracteres' },
+                    { id: 'pub-categoria', validar: v => Validator.requerido(v), mensaje: 'Seleccioná una categoría' },
+                    { id: 'pub-zona', validar: v => Validator.requerido(v), mensaje: 'Seleccioná una zona' },
+                    { id: 'pub-descripcion', validar: v => Validator.longitudMinima(v, 20), mensaje: 'La descripción debe tener al menos 20 caracteres' }
+                ];
+
+                campos.forEach(campo => {
+                    const input = document.getElementById(campo.id);
+                    if (!input) return;
+                    const valor = input.value;
+
+                    if (!campo.validar(valor)) {
+                        Validator.mostrarError(campo.id, campo.mensaje);
+                        valido = false;
+                    } else {
+                        Validator.limpiarError(campo.id);
+                    }
+                });
+
+                // Validar presupuesto si tiene valor
+                const presupuesto = document.getElementById('pub-presupuesto').value;
+                if (presupuesto && !Validator.numeroPositivo(presupuesto)) {
+                    Validator.mostrarError('pub-presupuesto', 'El presupuesto debe ser un número positivo');
+                    valido = false;
+                }
+
+                return valido;
+            },
+
+            /**
+             * Publica un nuevo trabajo
+             */
+            publicar(event) {
+                event.preventDefault();
+
+                if (!this.validarFormularioPublicar()) {
+                    UI.mostrarToast('Revisá los campos marcados', 'error');
+                    return;
+                }
+
+                const btn = document.getElementById('btn-publicar');
+                const btnText = document.getElementById('btn-publicar-text');
+                const btnSpinner = document.getElementById('btn-publicar-spinner');
+
+                btn.disabled = true;
+                btnText.textContent = 'Publicando...';
+                btnSpinner.classList.remove('hidden');
+
+                // Simular pequeño delay para UX
+                setTimeout(() => {
+                    const nuevoTrabajo = {
+                        id: Utils.generarId(),
+                        titulo: document.getElementById('pub-titulo').value.trim(),
+                        categoria: document.getElementById('pub-categoria').value,
+                        zona: document.getElementById('pub-zona').value,
+                        descripcion: document.getElementById('pub-descripcion').value.trim(),
+                        presupuesto: Number(document.getElementById('pub-presupuesto').value) || null,
+                        urgente: document.getElementById('pub-urgente').checked,
+                        nombreContacto: document.getElementById('pub-nombre').value.trim(),
+                        whatsapp: Utils.limpiarTelefono(document.getElementById('pub-whatsapp').value),
+                        timestamp: Date.now(),
+                        postulaciones: 0
+                    };
+
+                    State.data.trabajos.unshift(nuevoTrabajo);
+                    State.guardar();
+
+                    UI.renderizarTrabajos();
+                    UI.actualizarContadorHero();
+                    UI.cerrarModal('modal-publicar');
+                    UI.mostrarToast('¡Trabajo publicado con éxito!', 'success');
+
+                    btn.disabled = false;
+                    btnText.textContent = 'Publicar trabajo';
+                    btnSpinner.classList.add('hidden');
+                }, 600);
+            },
+
+            /**
+             * Postularse a un trabajo
+             */
+            postularse(trabajoId) {
+                const trabajo = State.data.trabajos.find(t => t.id === trabajoId);
+                if (!trabajo) {
+                    UI.mostrarToast('Trabajo no encontrado', 'error');
+                    return;
+                }
+
+                if (State.data.postulaciones.some(p => p.id === trabajoId)) {
+                    UI.mostrarToast('Ya te postulaste a este trabajo', 'warning');
+                    return;
+                }
+
+                State.data.postulaciones.push({
+                    id: trabajoId,
+                    timestamp: Date.now(),
+                    estado: 'Pendiente'
+                });
+
+                trabajo.postulaciones++;
+                State.guardar();
+                UI.renderizarTrabajos();
+
+                // Cerrar modal de detalle si estaba abierto
+                UI.cerrarModal('modal-detalle-trabajo');
+
+                UI.mostrarToast(`Te postulaste a "${trabajo.titulo}"`, 'success');
+
+                // Abrir WhatsApp automáticamente
+                setTimeout(() => {
+                    const whatsappUrl = `${WHATSAPP_BASE}${Utils.limpiarTelefono(trabajo.whatsapp)}?text=${encodeURIComponent(`Hola! Me postulo para tu publicación "${trabajo.titulo}" en Chajarí Oficios.`)}`;
+                    window.open(whatsappUrl, '_blank');
+                }, 800);
+            },
+
+            /**
+             * Cancela una postulación
+             */
+            cancelarPostulacion(trabajoId) {
+                if (!confirm('¿Estás seguro de cancelar la postulación?')) return;
+
+                const index = State.data.postulaciones.findIndex(p => p.id === trabajoId);
+                if (index === -1) return;
+
+                State.data.postulaciones.splice(index, 1);
+
+                const trabajo = State.data.trabajos.find(t => t.id === trabajoId);
+                if (trabajo && trabajo.postulaciones > 0) trabajo.postulaciones--;
+
+                State.guardar();
+                UI.renderizarTrabajos();
+                UI.renderizarMisPostulaciones();
+                UI.mostrarToast('Postulación cancelada', 'info');
+            },
+
+            /**
+             * Filtra y ordena trabajos según los filtros activos
+             */
+            filtrarYOrdenar() {
+                const busqueda = document.getElementById('buscador').value.toLowerCase().trim();
+                const categoria = document.getElementById('filtro-categoria').value;
+                const zona = document.getElementById('filtro-zona').value;
+                const orden = document.getElementById('ordenar-por').value;
+
+                let resultado = [...State.data.trabajos];
+
+                // Filtrar por búsqueda de texto
+                if (busqueda) {
+                    resultado = resultado.filter(t =>
+                        t.titulo.toLowerCase().includes(busqueda) ||
+                        t.descripcion.toLowerCase().includes(busqueda) ||
+                        t.categoria.toLowerCase().includes(busqueda)
+                    );
+                }
+
+                // Filtrar por categoría
+                if (categoria) {
+                    resultado = resultado.filter(t => t.categoria === categoria);
+                }
+
+                // Filtrar por zona
+                if (zona) {
+                    resultado = resultado.filter(t => t.zona === zona);
+                }
+
+                // Ordenar
+                switch (orden) {
+                    case 'populares':
+                        resultado.sort((a, b) => b.postulaciones - a.postulaciones);
+                        break;
+                    case 'presupuesto':
+                        resultado.sort((a, b) => (b.presupuesto || 0) - (a.presupuesto || 0));
+                        break;
+                    case 'nuevos':
+                    default:
+                        resultado.sort((a, b) => b.timestamp - a.timestamp);
+                }
+
+                // Priorizar urgentes si está en "nuevos"
+                if (orden === 'nuevos') {
+                    resultado.sort((a, b) => {
+                        if (a.urgente && !b.urgente) return -1;
+                        if (!a.urgente && b.urgente) return 1;
+                        return 0;
+                    });
+                }
+
+                UI.renderizarTrabajos(resultado);
+            }
+        };
+
+        // ========================================================================
+        // MÓDULO: USER MANAGER - Lógica de usuarios y registro
+        // ========================================================================
+        const UserManager = {
+            /**
+             * Registra un nuevo profesional
+             */
+            registrarProfesional(event) {
+                event.preventDefault();
+
+                const campos = [
+                    { id: 'reg-nombre', validar: v => Validator.longitudMinima(v, 3), mensaje: 'Nombre debe tener al menos 3 caracteres' },
+                    { id: 'reg-whatsapp', validar: v => Validator.telefono(v), mensaje: 'WhatsApp inválido' },
+                    { id: 'reg-oficio', validar: v => Validator.requerido(v), mensaje: 'Seleccioná un oficio' },
+                    { id: 'reg-zona-cobertura', validar: v => Validator.requerido(v), mensaje: 'Seleccioná una zona' },
+                    { id: 'reg-experiencia', validar: v => Validator.longitudMinima(v, 20), mensaje: 'Contanos más sobre tu experiencia (mín. 20 caracteres)' }
+                ];
+
+                let valido = true;
+                campos.forEach(campo => {
+                    const valor = document.getElementById(campo.id).value;
+                    if (!campo.validar(valor)) {
+                        Validator.mostrarError(campo.id, campo.mensaje);
+                        valido = false;
+                    } else {
+                        Validator.limpiarError(campo.id);
+                    }
+                });
+
+                if (!valido) {
+                    UI.mostrarToast('Revisá los campos marcados', 'error');
+                    return;
+                }
+
+                const profesional = {
+                    id: Utils.generarId(),
+                    nombre: document.getElementById('reg-nombre').value.trim(),
+                    whatsapp: Utils.limpiarTelefono(document.getElementById('reg-whatsapp').value),
+                    oficio: document.getElementById('reg-oficio').value,
+                    zonaCobertura: document.getElementById('reg-zona-cobertura').value,
+                    experiencia: document.getElementById('reg-experiencia').value.trim(),
+                    timestamp: Date.now(),
+                    calificacion: 0,
+                    trabajosCompletados: 0
+                };
+
+                State.data.profesionales.push(profesional);
+                State.guardar();
+
+                UI.cerrarModal('modal-registro-profesional');
+                UI.mostrarToast('¡Registro exitoso! Te vamos a contactar pronto.', 'success');
+            }
+        };
+
+        // ========================================================================
+        // INICIALIZACIÓN Y EVENT LISTENERS
+        // ========================================================================
+        const init = {
+            /**
+             * Configura todos los event listeners
+             */
+            eventListeners() {
+                // Búsqueda con debounce
+                const buscador = document.getElementById('buscador');
+                if (buscador) {
+                    buscador.addEventListener('input', Utils.debounce(() => WorkManager.filtrarYOrdenar()));
+                }
+
+                // Filtros
+                ['filtro-categoria', 'filtro-zona', 'ordenar-por'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.addEventListener('change', () => WorkManager.filtrarYOrdenar());
+                });
+
+                // Formulario publicar
+                const formPublicar = document.getElementById('form-publicar');
+                if (formPublicar) {
+                    formPublicar.addEventListener('submit', (e) => WorkManager.publicar(e));
+
+                    // Limpiar errores al escribir
+                    formPublicar.querySelectorAll('input, select, textarea').forEach(input => {
+                        input.addEventListener('input', () => Validator.limpiarError(input.id));
+                    });
+                }
+
+                // Contador de caracteres en descripción
+                const descripcion = document.getElementById('pub-descripcion');
+                const contadorDesc = document.getElementById('contador-descripcion');
+                if (descripcion && contadorDesc) {
+                    descripcion.addEventListener('input', () => {
+                        contadorDesc.textContent = `${descripcion.value.length} / 500`;
+                    });
+                }
+
+                // Formulario registro profesional
+                const formRegistro = document.getElementById('form-registro');
+                if (formRegistro) {
+                    formRegistro.addEventListener('submit', (e) => UserManager.registrarProfesional(e));
+
+                    formRegistro.querySelectorAll('input, select, textarea').forEach(input => {
+                        input.addEventListener('input', () => Validator.limpiarError(input.id));
+                    });
+                }
+
+                // Event delegation para botones dinámicos
+                document.body.addEventListener('click', (e) => {
+                    const action = e.target.closest('[data-action]');
+                    if (!action) return;
+
+                    const tipo = action.dataset.action;
+                    const id = action.dataset.id;
+
+                    switch (tipo) {
+                        case 'postularse':
+                            WorkManager.postularse(id);
+                            break;
+                        case 'ver-detalle':
+                            UI.renderizarDetalleTrabajo(id);
+                            break;
+                        case 'cancelar-postulacion':
+                            WorkManager.cancelarPostulacion(id);
+                            break;
+                    }
+                });
+
+                // Cerrar modales con click en backdrop
+                document.querySelectorAll('[role="dialog"]').forEach(modal => {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            UI.cerrarModal(modal.id);
+                        }
+                    });
+                });
+
+                // Cerrar modales con tecla ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        document.querySelectorAll('[role="dialog"]:not(.hidden)').forEach(modal => {
+                            UI.cerrarModal(modal.id);
+                        });
+                    }
+                });
+
+                // Atajo: Cmd/Ctrl + K para publicar
+                document.addEventListener('keydown', (e) => {
+                    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                        e.preventDefault();
+                        UI.abrirModal('modal-publicar');
+                    }
+                });
+            },
+
+            /**
+             * Renderiza el botón "Mis postulaciones" en el navbar
+             */
+            renderizarAuthSection() {
+                const container = document.getElementById('auth-section');
+                if (!container) return;
+
+                container.innerHTML = `
+                    <button onclick="App.UI.abrirModal('modal-mis-postulaciones'); App.UI.renderizarMisPostulaciones()"
+                            class="flex items-center gap-x-2 px-3 sm:px-4 py-2 text-sm hover:bg-zinc-800 rounded-2xl transition-colors"
+                            aria-label="Ver mis postulaciones">
+                        <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+                        <span class="hidden sm:inline">Mis postulaciones</span>
+                        ${State.data.postulaciones.length > 0 ? `
+                            <span class="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full">${State.data.postulaciones.length}</span>
+                        ` : ''}
+                    </button>
+                `;
+            },
+
+            /**
+             * Arranca la aplicación
+             */
+            start() {
+                State.cargar();
+                this.eventListeners();
+                this.renderizarAuthSection();
+                UI.renderizarTrabajos();
+                UI.actualizarContadorHero();
+
+                console.info('%c[Chajarí Oficios] Aplicación iniciada ✓', 'color:#10b981;font-weight:bold');
+            }
+        };
+
+        // API pública del módulo
+        return {
+            State,
+            Utils,
+            Validator,
+            UI,
+            WorkManager,
+            UserManager,
+            init
+        };
+    })();
+
+    // Iniciar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => App.init.start());
+    } else {
+        App.init.start();
+    }
+    </script>
+</body>
+</html>
